@@ -1,7 +1,10 @@
 package net.nukular.mucwetter2;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,6 +23,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.webkit.WebView;
+import android.widget.ImageView;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,7 +99,14 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
+            new DownloadImageTask((PhotoView) findViewById(R.id.contentImageView))
+                    .execute("https://www.dwd.de/DWD/warnungen/agrar/wbx/wbx_stationen.png");
+
         } else if (id == R.id.nav_slideshow) {
+
+            new DownloadImageTask((PhotoView) findViewById(R.id.contentImageView))
+                    .execute("http://wetterstationen.meteomedia.de/messnetz/vorhersagegrafik/098620.png");
+
 
         } else if (id == R.id.nav_tools) {
 
