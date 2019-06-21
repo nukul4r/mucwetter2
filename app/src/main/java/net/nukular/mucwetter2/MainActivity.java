@@ -1,7 +1,5 @@
 package net.nukular.mucwetter2;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -23,13 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.webkit.WebView;
-import android.widget.ImageView;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,15 +88,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            findViewById(R.id.textView);
         } else if (id == R.id.nav_gallery) {
 
-            new DownloadImageTask((PhotoView) findViewById(R.id.contentImageView))
+            new DownloadImageTask(findPhotoView())
                     .execute("https://www.dwd.de/DWD/warnungen/agrar/wbx/wbx_stationen.png");
 
         } else if (id == R.id.nav_slideshow) {
 
-            new DownloadImageTask((PhotoView) findViewById(R.id.contentImageView))
+            new DownloadImageTask(findPhotoView())
                     .execute("http://wetterstationen.meteomedia.de/messnetz/vorhersagegrafik/098620.png");
 
 
@@ -120,4 +112,15 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private PhotoView findPhotoView() {
+        findViewById(R.id.textView).setVisibility(View.INVISIBLE);
+        return (PhotoView) findViewById(R.id.contentImageView);
+    }
+
+    private TextView findTextView() {
+        findViewById(R.id.contentImageView).setVisibility(View.INVISIBLE);
+        return (TextView) findViewById(R.id.textView);
+    }
+
 }
