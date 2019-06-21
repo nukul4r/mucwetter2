@@ -14,4 +14,9 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="content">Content</string>
+    <string name="menu_t850Nds">t850 + Nds</string>
+    <string name="nav_wrf">WRF</string>
+    <string name="menu_wrf">WRF</string>
+    <string name="menu_mm">MeteoMedia</string>
+    <string name="menu_nds_radar">NdsRadar</string>
 </resources>

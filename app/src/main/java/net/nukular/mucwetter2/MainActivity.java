@@ -1,5 +1,6 @@
 package net.nukular.mucwetter2;
 
+import android.content.ClipData;
 import android.os.Bundle;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -81,32 +82,9 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            findViewById(R.id.textView);
-        } else if (id == R.id.nav_gallery) {
-
-            new DownloadImageTask(findPhotoView())
-                    .execute("https://www.dwd.de/DWD/warnungen/agrar/wbx/wbx_stationen.png");
-
-        } else if (id == R.id.nav_slideshow) {
-
-            new DownloadImageTask(findPhotoView())
-                    .execute("http://wetterstationen.meteomedia.de/messnetz/vorhersagegrafik/098620.png");
-
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+        new DownloadImageTask(findPhotoView()).execute(item.getTitleCondensed().toString());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -114,13 +92,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private PhotoView findPhotoView() {
-        findViewById(R.id.textView).setVisibility(View.INVISIBLE);
         return (PhotoView) findViewById(R.id.contentImageView);
     }
-
-    private TextView findTextView() {
-        findViewById(R.id.contentImageView).setVisibility(View.INVISIBLE);
-        return (TextView) findViewById(R.id.textView);
-    }
-
 }
