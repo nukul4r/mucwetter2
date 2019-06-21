@@ -1,26 +1,24 @@
 package net.nukular.mucwetter2;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import android.view.View;
-
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
-import android.view.MenuItem;
-
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
+import java.io.IOException;
+import java.io.InputStream;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -33,14 +31,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,6 +39,26 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        initHome();
+        showHome();
+    }
+
+    private void initHome() {
+        String content = "";
+
+        InputStream is;
+        try {
+            is = getAssets().open("home.html");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+            content = new String(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ((WebView) findViewById(R.id.home)).loadData(content, "text/html", "UTF-8");
     }
 
     @Override
@@ -86,7 +97,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         String imageUrl = item.getTitleCondensed().toString();
 
-        if (imageUrl.endsWith(".gif")) {
+        if (item.getItemId() == R.id.nav_home) {
+            showHome();
+        } else if (imageUrl.endsWith(".gif")) {
             new DownloadGifTask((GifImageView) findViewById(R.id.content_gif_view)).execute(imageUrl);
             findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
             findViewById(R.id.content_gif_view).setVisibility(View.VISIBLE);
@@ -100,4 +113,11 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void showHome() {
+        findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
+        findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
+    }
+
+
 }
