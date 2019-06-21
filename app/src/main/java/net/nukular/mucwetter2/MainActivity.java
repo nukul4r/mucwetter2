@@ -1,6 +1,5 @@
 package net.nukular.mucwetter2;
 
-import android.content.ClipData;
 import android.os.Bundle;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -22,7 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.widget.TextView;
+
+import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -84,14 +84,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        new DownloadImageTask(findPhotoView()).execute(item.getTitleCondensed().toString());
+        String imageUrl = item.getTitleCondensed().toString();
+
+        if (imageUrl.endsWith(".gif")) {
+            new DownloadGifTask((GifImageView) findViewById(R.id.content_gif_view)).execute(imageUrl);
+            findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
+            findViewById(R.id.content_gif_view).setVisibility(View.VISIBLE);
+        } else {
+            new DownloadBitmapTask((PhotoView) findViewById(R.id.content_bitmap_view)).execute(imageUrl);
+            findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
+            findViewById(R.id.content_bitmap_view).setVisibility(View.VISIBLE);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private PhotoView findPhotoView() {
-        return (PhotoView) findViewById(R.id.contentImageView);
     }
 }

@@ -28,7 +28,7 @@
             android:id="@+id/nav_nds_radar"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_nds_radar"
-            android:titleCondensed="https://www.niederschlagsradar.de/image.ashx?type=regioloop&amp;regio=mun" />
+            android:titleCondensed="https://www.dwd.de/DWD/wetter/radar/radfilm_brd_akt.gif" />
 
     </group>
 </menu>
