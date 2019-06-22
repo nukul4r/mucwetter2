@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,14 +97,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         String imageUrl = item.getTitleCondensed().toString();
 
+        View gifView = findViewById(R.id.content_gif_view);
+        View bitmapView = findViewById(R.id.content_bitmap_view);
+
         if (imageUrl.endsWith(".gif")) {
-            new DownloadGifTask((GifImageView) findViewById(R.id.content_gif_view)).execute(imageUrl);
-            findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
-            findViewById(R.id.content_gif_view).setVisibility(View.VISIBLE);
+            new DownloadGifTask((GifImageView) gifView).execute(imageUrl);
+            bitmapView.setVisibility(View.INVISIBLE);
+            gifView.setVisibility(View.VISIBLE);
         } else {
-            new DownloadBitmapTask((PhotoView) findViewById(R.id.content_bitmap_view)).execute(imageUrl);
-            findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
-            findViewById(R.id.content_bitmap_view).setVisibility(View.VISIBLE);
+            new DownloadBitmapTask((PhotoView) bitmapView).execute(imageUrl);
+            gifView.setVisibility(View.INVISIBLE);
+            bitmapView.setVisibility(View.VISIBLE);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
