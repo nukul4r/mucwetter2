@@ -1,5 +1,6 @@
 package net.nukular.mucwetter2.task;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import java.net.URL;
 public class DownloadBitmapTask extends AsyncTask<String, Void, Bitmap> {
     private final ImageView view;
     private final View spinner;
+    private Exception exception;
 
     public DownloadBitmapTask(ImageView view, View spinner) {
         this.view = view;
@@ -20,6 +22,7 @@ public class DownloadBitmapTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected Bitmap doInBackground(String... urls) {
+        exception = null;
         String url = urls[0];
         Bitmap bitmap = null;
         try {
@@ -28,14 +31,21 @@ public class DownloadBitmapTask extends AsyncTask<String, Void, Bitmap> {
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
             e.printStackTrace();
+            exception = e;
         }
         return bitmap;
     }
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
+        spinner.setVisibility(View.INVISIBLE);
+        if (exception != null) {
+            new AlertDialog.Builder(view.getContext())
+                    .setTitle("Error")
+                    .setMessage("Download failed")
+                    .show();
+        }
         view.setImageBitmap(bitmap);
         view.setVisibility(View.VISIBLE);
-        spinner.setVisibility(View.INVISIBLE);
     }
 }

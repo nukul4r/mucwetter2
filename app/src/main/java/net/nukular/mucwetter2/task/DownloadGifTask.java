@@ -1,5 +1,6 @@
 package net.nukular.mucwetter2.task;
 
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
     private final GifImageView view;
     private final View spinner;
+    private Exception exception;
 
     public DownloadGifTask(GifImageView view, View spinner) {
         this.view = view;
@@ -22,6 +24,7 @@ public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
     }
 
     protected GifDrawable doInBackground(String... urls) {
+        exception = null;
         String url = urls[0];
         GifDrawable gif = null;
         try {
@@ -31,14 +34,22 @@ public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
             e.printStackTrace();
+            exception = e;
         }
         return gif;
     }
 
     @Override
     protected void onPostExecute(GifDrawable gifDrawable) {
+        spinner.setVisibility(View.INVISIBLE);
+        if (exception != null) {
+            new AlertDialog.Builder(view.getContext())
+                    .setTitle("Error")
+                    .setMessage("Download failed")
+                    .show();
+            return;
+        }
         view.setImageDrawable(gifDrawable);
         view.setVisibility(View.VISIBLE);
-        spinner.setVisibility(View.INVISIBLE);
     }
 }
