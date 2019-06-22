@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
         findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
+        findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -81,28 +82,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         String link = links.get(item.getTitle().toString());
+        boolean isGif = link.endsWith(".gif");
 
         GifImageView gifView = findViewById(R.id.content_gif_view);
         ImageView bitmapView = findViewById(R.id.content_bitmap_view);
-        try {
-            if (link.endsWith(".gif")) {
-                gifView.setImageDrawable(new DownloadGifTask().execute(link).get());
-                bitmapView.setVisibility(View.INVISIBLE);
-                gifView.setVisibility(View.VISIBLE);
-            } else {
-                bitmapView.setImageBitmap(new DownloadBitmapTask().execute(link).get());
-                gifView.setVisibility(View.INVISIBLE);
-                bitmapView.setVisibility(View.VISIBLE);
-            }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        View spinner = findViewById(R.id.spinner);
+        showFirstViewHideOthers(spinner, gifView, bitmapView);
+
+        if (isGif)
+            new DownloadGifTask(gifView, spinner).execute(link);
+        else {
+            new DownloadBitmapTask(bitmapView, spinner).execute(link);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
+    }
+
+    private void showFirstViewHideOthers(View... views) {
+        Stream.of(views).forEach(v -> v.setVisibility(View.INVISIBLE));
+        Stream.of(views).findFirst().get().setVisibility(View.VISIBLE);
     }
 
     public String loadItemsJson() {

@@ -2,6 +2,7 @@ package net.nukular.mucwetter2.task;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -9,8 +10,17 @@ import java.net.URL;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifDrawableBuilder;
+import pl.droidsonroids.gif.GifImageView;
 
 public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
+    private final GifImageView view;
+    private final View spinner;
+
+    public DownloadGifTask(GifImageView view, View spinner) {
+        this.view = view;
+        this.spinner = spinner;
+    }
+
     protected GifDrawable doInBackground(String... urls) {
         String url = urls[0];
         GifDrawable gif = null;
@@ -23,5 +33,12 @@ public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
             e.printStackTrace();
         }
         return gif;
+    }
+
+    @Override
+    protected void onPostExecute(GifDrawable gifDrawable) {
+        view.setImageDrawable(gifDrawable);
+        view.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.INVISIBLE);
     }
 }
