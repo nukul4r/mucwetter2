@@ -5,13 +5,4 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="menu_t850Nds">t850 + Nds</string>
-    <string name="menu_wrf">WRF</string>
-    <string name="menu_mm">MeteoMedia</string>
-    <string name="menu_nds_radar">Radar BRD</string>
-
-    <string name="menu_home">Home</string>
-    <string name="test">Test</string>
 </resources>

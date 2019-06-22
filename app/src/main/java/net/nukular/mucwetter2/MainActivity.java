@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,11 +23,16 @@ import net.nukular.mucwetter2.task.DownloadGifTask;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private Map<String, String> links;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         List<ContentItem> items = gson.fromJson(loadItemsJson(), token.getType());
 
-        for (int i = 0; i < items.size(); i++) {
+        links = new HashMap<>();
+
+        for (ContentItem item : items) {
             Menu menu = navigationView.getMenu();
-            menu.add(items.get(i).label);
-            menu.getItem(menu.size() - 1).setTitleCondensed(items.get(i).link);
+            MenuItem newItem = menu.add(item.label);
+            links.put(newItem.getTitle().toString(), item.link);
         }
 
         findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
@@ -72,42 +79,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        String imageUrl = item.getTitleCondensed().toString();
+        String link = links.get(item.getTitle().toString());
 
-        View gifView = findViewById(R.id.content_gif_view);
-        View bitmapView = findViewById(R.id.content_bitmap_view);
-
-        if (imageUrl.endsWith(".gif")) {
-            new DownloadGifTask((GifImageView) gifView).execute(imageUrl);
-            bitmapView.setVisibility(View.INVISIBLE);
-            gifView.setVisibility(View.VISIBLE);
-        } else {
-            new DownloadBitmapTask((PhotoView) bitmapView).execute(imageUrl);
-            gifView.setVisibility(View.INVISIBLE);
-            bitmapView.setVisibility(View.VISIBLE);
+        GifImageView gifView = findViewById(R.id.content_gif_view);
+        ImageView bitmapView = findViewById(R.id.content_bitmap_view);
+        try {
+            if (link.endsWith(".gif")) {
+                gifView.setImageDrawable(new DownloadGifTask().execute(link).get());
+                bitmapView.setVisibility(View.INVISIBLE);
+                gifView.setVisibility(View.VISIBLE);
+            } else {
+                bitmapView.setImageBitmap(new DownloadBitmapTask().execute(link).get());
+                gifView.setVisibility(View.INVISIBLE);
+                bitmapView.setVisibility(View.VISIBLE);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -123,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
