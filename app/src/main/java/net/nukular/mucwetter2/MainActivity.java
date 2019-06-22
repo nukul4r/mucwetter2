@@ -45,12 +45,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        initHome();
-        showHome();
 
         Gson gson = new GsonBuilder().create();
 
-        TypeToken<List<ContentItem>> token = new TypeToken<List<ContentItem>>() {};
+        TypeToken<List<ContentItem>> token = new TypeToken<List<ContentItem>>() {
+        };
         List<ContentItem> items = gson.fromJson(loadItemsJson(), token.getType());
 
         for (int i = 0; i < items.size(); i++) {
@@ -59,21 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             menu.getItem(menu.size() - 1).setTitleCondensed(items.get(i).link);
         }
 
-    }
-
-    private void initHome() {
-        String content = "";
-        InputStream is;
-        try {
-            is = getAssets().open("home.html");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            content = new String(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ((WebView) findViewById(R.id.home)).loadData(content, "text/html", "UTF-8");
+        findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
+        findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -112,9 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         String imageUrl = item.getTitleCondensed().toString();
 
-        if (item.getItemId() == R.id.nav_home) {
-            showHome();
-        } else if (imageUrl.endsWith(".gif")) {
+        if (imageUrl.endsWith(".gif")) {
             new DownloadGifTask((GifImageView) findViewById(R.id.content_gif_view)).execute(imageUrl);
             findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
             findViewById(R.id.content_gif_view).setVisibility(View.VISIBLE);
@@ -127,11 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void showHome() {
-        findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
-        findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
     }
 
     public String loadItemsJson() {

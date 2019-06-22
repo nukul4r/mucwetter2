@@ -16,16 +16,15 @@
     "link": "https://www.dwd.de/DWD/wetter/radar/radfilm_brd_akt.gif"
   },
   {
-    "label": "label2",
-    "link": "http://www.wetterzentrale.de/pics/MS_116481_wrf.png"
+    "label": "DWD Waldbrand BRD",
+    "link": "https://www.dwd.de/DWD/warnungen/agrar/wbx/wbx_stationen.png"
   },
   {
-    "label": "label2",
-    "link": "http://www.wetterzentrale.de/pics/MS_116481_wrf.png"
+    "label": "DWD Wassertemp. EU",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/hobbymet/wetterkarten/ico_wassertemp_na_ana.png"
   },
   {
-    "label": "label2",
-    "link": "http://www.wetterzentrale.de/pics/MS_116481_wrf.png"
+    "label": "DWD Radar München",
+    "link": "https://www.niederschlagsradar.de/image.ashx?type=regioloop&regio=mun&j=&m=&d=&mi=&uhr=&bliksem=0&voor=&srt=loop1stunde&tijdid=20196221355&.gif"
   }
 ]
-
