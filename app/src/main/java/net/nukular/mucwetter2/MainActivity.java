@@ -13,17 +13,22 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import net.nukular.mucwetter2.entity.ContentItem;
+import net.nukular.mucwetter2.task.DownloadBitmapTask;
+import net.nukular.mucwetter2.task.DownloadGifTask;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,22 @@ public class MainActivity extends AppCompatActivity
 
         initHome();
         showHome();
+
+        Gson gson = new GsonBuilder().create();
+
+        TypeToken<List<ContentItem>> token = new TypeToken<List<ContentItem>>() {};
+        List<ContentItem> items = gson.fromJson(loadItemsJson(), token.getType());
+
+        for (int i = 0; i < items.size(); i++) {
+            Menu menu = navigationView.getMenu();
+            menu.add(items.get(i).label);
+            menu.getItem(menu.size() - 1).setTitleCondensed(items.get(i).link);
+        }
+
     }
 
     private void initHome() {
         String content = "";
-
         InputStream is;
         try {
             is = getAssets().open("home.html");
@@ -57,7 +73,6 @@ public class MainActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         ((WebView) findViewById(R.id.home)).loadData(content, "text/html", "UTF-8");
     }
 
@@ -119,5 +134,19 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
     }
 
-
+    public String loadItemsJson() {
+        String json = null;
+        try {
+            InputStream is = getApplicationContext().getAssets().open("items.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
 }

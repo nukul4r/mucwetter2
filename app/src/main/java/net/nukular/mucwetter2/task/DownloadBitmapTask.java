@@ -1,4 +1,4 @@
-package net.nukular.mucwetter2;
+package net.nukular.mucwetter2.task;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
