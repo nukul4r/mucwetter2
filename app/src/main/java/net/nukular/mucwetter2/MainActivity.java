@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public String loadItemsJson() {
-        String json = null;
+        String json;
         try {
             InputStream is = getApplicationContext().getAssets().open("items.json");
             int size = is.available();
