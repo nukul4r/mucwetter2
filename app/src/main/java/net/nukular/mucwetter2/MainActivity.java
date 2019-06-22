@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.ortiz.touchview.TouchImageView;
 
 import net.nukular.mucwetter2.entity.ContentItem;
 import net.nukular.mucwetter2.task.DownloadBitmapTask;
@@ -27,7 +27,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -85,9 +84,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         boolean isGif = link.endsWith(".gif");
 
         GifImageView gifView = findViewById(R.id.content_gif_view);
-        ImageView bitmapView = findViewById(R.id.content_bitmap_view);
+        TouchImageView bitmapView = findViewById(R.id.content_bitmap_view);
         View spinner = findViewById(R.id.spinner);
-        showFirstViewHideOthers(spinner, gifView, bitmapView);
+
+        gifView.setVisibility(View.INVISIBLE);
+        bitmapView.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.VISIBLE);
+
+        bitmapView.resetZoom();
 
         if (isGif)
             new DownloadGifTask(gifView, spinner).execute(link);
@@ -99,11 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
-    }
-
-    private void showFirstViewHideOthers(View... views) {
-        Stream.of(views).forEach(v -> v.setVisibility(View.INVISIBLE));
-        Stream.of(views).findFirst().get().setVisibility(View.VISIBLE);
     }
 
     public String loadItemsJson() {
