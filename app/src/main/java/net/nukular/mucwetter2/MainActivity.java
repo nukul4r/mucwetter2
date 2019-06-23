@@ -1,9 +1,15 @@
 package net.nukular.mucwetter2;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +27,8 @@ import net.nukular.mucwetter2.entity.ContentItem;
 import net.nukular.mucwetter2.task.DownloadBitmapTask;
 import net.nukular.mucwetter2.task.DownloadGifTask;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +40,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Map<String, String> links;
+    private MenuItem aboutItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        initNavigationView(navigationView);
+        initAboutView();
+    }
+
+    private void initNavigationView(NavigationView navigationView) {
         Gson gson = new GsonBuilder().create();
 
         TypeToken<List<ContentItem>> token = new TypeToken<List<ContentItem>>() {
@@ -66,6 +80,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.content_gif_view).setVisibility(View.INVISIBLE);
         findViewById(R.id.content_bitmap_view).setVisibility(View.INVISIBLE);
         findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
+
+        Menu menu = navigationView.getMenu();
+        aboutItem = menu.add(1, 0, 0, "Info");
+    }
+
+    private void initAboutView() {
+        findViewById(R.id.about_github).setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.stackoverflow.com"))));
+
+        findViewById(R.id.about_btc).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("16E9jH7ew5EszUkx8LFwT8ojiDLJox5xaY", "16E9jH7ew5EszUkx8LFwT8ojiDLJox5xaY");
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(getApplicationContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -81,19 +113,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         String link = links.get(item.getTitle().toString());
-        boolean isGif = link.endsWith(".gif");
+        boolean isGif = StringUtils.isNotBlank(link) && link.endsWith(".gif");
 
         GifImageView gifView = findViewById(R.id.content_gif_view);
         TouchImageView bitmapView = findViewById(R.id.content_bitmap_view);
         View spinner = findViewById(R.id.spinner);
+        View about = findViewById(R.id.content_about);
 
         gifView.setVisibility(View.INVISIBLE);
         bitmapView.setVisibility(View.INVISIBLE);
         spinner.setVisibility(View.VISIBLE);
+        about.setVisibility(View.INVISIBLE);
 
         bitmapView.resetZoom();
 
-        if (isGif)
+        if (aboutItem == item) {
+            spinner.setVisibility(View.INVISIBLE);
+            about.setVisibility(View.VISIBLE);
+        } else if (isGif)
             new DownloadGifTask(gifView, spinner).execute(link);
         else {
             new DownloadBitmapTask(bitmapView, spinner).execute(link);

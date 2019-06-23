@@ -3,7 +3,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">MucWetter2</string>
-    <string name="nav_header_subtitle">https://github.com/nukul4r/mucwetter2</string>
+    <string name="about_github">https://github.com/nukul4r/mucwetter2</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_github">https://github.com/nukul4r/mucwetter2</string>
+    <string name="about_btc">16E9jH7ew5EszUkx8LFwT8ojiDLJox5xaY</string>
 </resources>
