@@ -12,19 +12,87 @@
     "link": "http://wetterstationen.meteomedia.de/messnetz/vorhersagegrafik/098620.png"
   },
   {
-    "label": "DWD Radar BRD",
+    "label": "DWD Radar DE",
     "link": "https://www.dwd.de/DWD/wetter/radar/radfilm_brd_akt.gif"
   },
   {
-    "label": "DWD Waldbrand BRD",
+    "label": "DWD Radar München",
+    "link": "https://www.niederschlagsradar.de/image.ashx?type=regioloop&regio=mun&j=&m=&d=&mi=&uhr=&bliksem=0&voor=&srt=loop1stunde&tijdid=20196221355&.gif"
+  },
+  {
+    "label": "DWD Bodenluftdruck EU",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/hobbymet/wetterkarten/bwk_bodendruck_na_ana.png"
+  },
+  {
+    "label": "DWD Sattelit EU",
+    "link": "https://www.dwd.de/DWD/wetter/sat/bilder/meteosat/satbild_hrvir_akt.png"
+  },
+  {
+    "label": "DWD 850hPa Temp. EU",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/hobbymet/wetterkarten/ico_850ht_na_ana.png"
+  },
+  {
+    "label": "DWD Waldbrand DE",
     "link": "https://www.dwd.de/DWD/warnungen/agrar/wbx/wbx_stationen.png"
+  },
+  {
+    "label": "DWD Grasbrand DE",
+    "link": "https://www.dwd.de/DWD/warnungen/agrar/glfi/glfi_stationen.png"
+  },
+  {
+    "label": "DWD Bodenfeuchte DE",
+    "link": "https://www.dwd.de/DWD/klima/agrar/bf/bf_r_DL_stationen_sl.png"
+  },
+  {
+    "label": "DWD Bodenfrost DE",
+    "link": "https://www.dwd.de/DE/leistungen/bodenfrost/bild_leistungen_bofro.png?__blob=normal&v=6"
+  },
+  {
+    "label": "DWD UV-Index DE",
+    "link": "https://www.dwd.de/DWD/warnungen/medizin/uvi/uv_brd12_cl.png"
+  },
+  {
+    "label": "DWD Regensumme 24h DE",
+    "link": "https://www.dwd.de/DWD/klima/radar/radolan-sf-xxxx.png"
   },
   {
     "label": "DWD Wassertemp. EU",
     "link": "https://www.dwd.de/DWD/wetter/wv_spez/hobbymet/wetterkarten/ico_wassertemp_na_ana.png"
   },
   {
-    "label": "DWD Radar München",
-    "link": "https://www.niederschlagsradar.de/image.ashx?type=regioloop&regio=mun&j=&m=&d=&mi=&uhr=&bliksem=0&voor=&srt=loop1stunde&tijdid=20196221355&.gif"
+    "label": "DWD Pollen (Gräser) DE",
+    "link": "https://www.dwd.de/DWD/warnungen/medizin/pollen/pollen_1_3.png"
+  },
+  {
+    "label": "DWD Pollen (Birke) DE",
+    "link": "https://www.dwd.de/DWD/warnungen/medizin/pollen/pollen_1_2.png"
+  },
+  {
+    "label": "DWD Biowetter DE",
+    "link": "https://www.dwd.de/DWD/warnungen/medizin/biowetter/biowetter_h_0.png"
+  },
+  {
+    "label": "DWD Schneehöhen DE",
+    "link": "https://www.dwd.de/DWD/wetter/aktuell/deutschland/bilder/pic_schnee.jpg"
+  },
+  {
+    "label": "DWD Seegang Nordsee",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/seewetter/nordsa_00.png"
+  },
+  {
+    "label": "DWD Seegang Ostsee",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/seewetter/ostsa_00.png"
+  },
+  {
+    "label": "DWD Seegang Atlantik",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/seewetter/oantik_00.png"
+  },
+  {
+    "label": "DWD Seegang MM West",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/seewetter/wmitme_00.png"
+  },
+  {
+    "label": "DWD Seegang MM Ost",
+    "link": "https://www.dwd.de/DWD/wetter/wv_spez/seewetter/omitme_00.png"
   }
 ]
