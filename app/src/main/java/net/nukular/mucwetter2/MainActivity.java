@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -86,9 +88,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initAboutView() {
-        findViewById(R.id.about_github).setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.stackoverflow.com"))));
+        TextView github = findViewById(R.id.about_github);
+        github.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.stackoverflow.com"))));
+        github.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_github, 0, 0, 0);
+        github.setGravity(Gravity.CENTER_VERTICAL);
+        github.setCompoundDrawablePadding(getApplicationContext().getResources().getDimensionPixelOffset(R.dimen.small_padding));
 
-        findViewById(R.id.about_btc).setOnClickListener(new View.OnClickListener() {
+        TextView btc = findViewById(R.id.about_btc);
+        btc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -98,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(getApplicationContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
             }
         });
+        btc.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_bitcoin, 0, 0, 0);
+        btc.setGravity(Gravity.CENTER_VERTICAL);
+        btc.setCompoundDrawablePadding(getApplicationContext().getResources().getDimensionPixelOffset(R.dimen.small_padding));
     }
 
     @Override
