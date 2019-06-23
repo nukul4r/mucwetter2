@@ -1,9 +1,9 @@
 package net.nukular.mucwetter2.task;
 
-import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -43,10 +43,7 @@ public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
     protected void onPostExecute(GifDrawable gifDrawable) {
         spinner.setVisibility(View.INVISIBLE);
         if (exception != null) {
-            new AlertDialog.Builder(view.getContext())
-                    .setTitle("Error")
-                    .setMessage("Download failed")
-                    .show();
+            Toast.makeText(view.getContext(), "Download failed", Toast.LENGTH_SHORT).show();
             return;
         }
         view.setImageDrawable(gifDrawable);
