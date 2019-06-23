@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initAboutView() {
         TextView github = findViewById(R.id.about_github);
-        github.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.stackoverflow.com"))));
+        github.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nukul4r/mucwetter2"))));
         github.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_github, 0, 0, 0);
         github.setGravity(Gravity.CENTER_VERTICAL);
         github.setCompoundDrawablePadding(getApplicationContext().getResources().getDimensionPixelOffset(R.dimen.small_padding));
