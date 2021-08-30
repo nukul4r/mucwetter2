@@ -27,8 +27,7 @@ public class DownloadGifTask extends AsyncTask<String, Void, GifDrawable> {
         exception = null;
         String url = urls[0];
         GifDrawable gif = null;
-        try {
-            InputStream in = new URL(url).openStream();
+        try (InputStream in = new URL(url).openStream();) {
             BufferedInputStream bin = new BufferedInputStream(in);
             gif = new GifDrawableBuilder().from(bin).build();
         } catch (Exception e) {

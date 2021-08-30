@@ -21,7 +21,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ortiz.touchview.TouchImageView;
 
@@ -34,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,11 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initNavigationView(NavigationView navigationView) {
-        Gson gson = new GsonBuilder().create();
-
-        TypeToken<List<ContentItem>> token = new TypeToken<List<ContentItem>>() {
-        };
-        List<ContentItem> items = gson.fromJson(loadItemsJson(), token.getType());
+        List<ContentItem> items = new Gson().fromJson(loadItemsJson(), new TypeToken<ArrayList<ContentItem>>() {}.getType());
 
         links = new HashMap<>();
 
@@ -154,12 +150,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public String loadItemsJson() {
         String json;
-        try {
-            InputStream is = getApplicationContext().getAssets().open("items.json");
+        try (InputStream is = getApplicationContext().getAssets().open("items.json")){
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
-            is.close();
             json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
