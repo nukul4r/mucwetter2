@@ -20,6 +20,10 @@
     "link": "https://www.niederschlagsradar.de/image.ashx?type=regioloop&regio=mun&j=&m=&d=&mi=&uhr=&bliksem=0&voor=&srt=loop1stunde&tijdid=20196221355&.gif"
   },
   {
+    "label": "HND Wasserstand München / Isar",
+    "link": "https://www.hnd.bayern.de/webservices/graphik.php?cache=hnd&statnr=16005701&thema=hochwasser.meldestufen&wert=wasserstand&vhs=true&geber=0"
+  },
+  {
     "label": "DWD Bodenluftdruck EU",
     "link": "https://www.dwd.de/DWD/wetter/wv_spez/hobbymet/wetterkarten/bwk_bodendruck_na_ana.png"
   },
