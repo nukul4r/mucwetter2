@@ -1,15 +1,15 @@
 [
   {
     "label": "WZ t850 + Nds München",
-    "link": "http://www.wetterzentrale.de/pics/MT8_Muenchen_ens.png"
+    "link": "http://old.wetterzentrale.de/pics/MT8_Muenchen_ens.png"
   },
   {
     "label": "WZ WRF München",
-    "link": "http://www.wetterzentrale.de/pics/MS_116481_wrf.png"
+    "link": "http://old.wetterzentrale.de/pics/MS_116481_wrf.png"
   },
   {
     "label": "MM München",
-    "link": "http://wetterstationen.meteomedia.de/messnetz/vorhersagegrafik/098620.png"
+    "link": "https://wetterstationen.meteomedia.de/messnetz/vorhersagegrafik/098620.png?ver=1321391408"
   },
   {
     "label": "DWD Radar DE",
